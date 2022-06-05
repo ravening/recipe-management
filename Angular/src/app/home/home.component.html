@@ -1,0 +1,43 @@
+<div class="container-fluid">
+  <div *ngIf="info.token; else loggedOut">
+    <div class="row">
+      <div class="col-3">
+        <app-recipes></app-recipes>
+      </div>
+      <div class="col-9">
+        <app-search-recipe></app-search-recipe>
+        <br>
+        <br>
+        <br>
+        <h2 class="display-3">Recipe management</h2>
+        <br>
+        <br>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #loggedOut>
+    <div class="container text-center">
+      <br>
+      <br>
+      <br>
+      <h2>Recipe Management</h2>
+      <br>
+      <br>
+      <h4>Please login:</h4>
+      <br>
+      <br>
+      <div class="row">
+        <div class="col-5"></div>
+        <div class="col-5">
+          <app-login></app-login>
+        </div>
+        <div class="col-2"></div>
+      </div>
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
+  </ng-template>
+</div>

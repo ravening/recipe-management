@@ -1,0 +1,28 @@
+<div class="container-fluid mt-5">
+
+  <input #searchBox class="form-control" (input)="search(searchBox.value)" placeholder="Search for recipe name">
+
+  <br>
+  <br>
+  Filter the recipes by creation Date
+  <br>
+  <input #searchDate matInput (input)="searchCreationDate(searchDate.value)" type="datetime-local" placeholder="Creation date">
+
+  <br>
+  <br>
+  <ul class="search-result">
+    <li *ngFor="let recipe of recipes$ | async" (click)="search('')">
+      <a routerLink="/recipe/{{recipe.recipeId}}" (click)="searchBox.value = ''">
+        {{recipe.recipeName}}
+      </a>
+    </li>
+  </ul>
+
+  <ul class="search-result">
+    <li *ngFor="let recipe of newRecipes$ | async" (click)="searchCreationDate('')">
+      <a routerLink="/recipe/{{recipe.recipeId}}" (click)="searchDate.value = ''">
+        {{recipe.recipeName}}
+      </a>
+    </li>
+  </ul>
+</div>
