@@ -30,15 +30,15 @@ Postman - to send api requests manually
 
 
 ### For backend
-Java 11
-Maven
-MySQL (optional)
+Java 11 \
+Maven \
+MySQL (optional) \
 Dockerfile is provided and so it can be run in container also
 
 ### For frontend
 
-Node v18.2.0
-npm 8.9.0
+Node v18.2.0 \
+npm 8.9.0 \
 Angular CLI: 13.3.7
 
 Dockerfile is provided but its not complete yet. 
