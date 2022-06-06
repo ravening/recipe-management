@@ -415,6 +415,42 @@ public class RecipeControllerIntegrationTest {
         assertEquals(2, newRecipeDto.getIngredientsList().size());
     }
 
+    @Test
+    @DisplayName("Delete recipe by id")
+    public void when_zDeleteARecipeById_thenStatusOk() throws Exception {
+        mockMvc
+                .perform(delete("/api/recipes/100")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + getAuthenticationToken(USERNAME, PASSWORD)))
+                .andExpect(status().is2xxSuccessful());
+
+        // status should be NOT_FOUND
+        mockMvc.perform(get("/api/recipes/100")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + getAuthenticationToken(USERNAME, PASSWORD)))
+                .andExpect(status().isNotFound())
+                .andReturn()
+                .getResponse();
+    }
+    @Test
+    @DisplayName("Delete all recipes")
+    public void when_zDeleteAllRecipe_thenStatusOk() throws Exception {
+        mockMvc
+                .perform(delete("/api/recipes/all")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + getAuthenticationToken(USERNAME, PASSWORD)))
+                .andExpect(status().is2xxSuccessful());
+
+        // status should be successful with size 0
+        MockHttpServletResponse response = mockMvc.perform(get("/api/recipes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization", "Bearer " + getAuthenticationToken(USERNAME, PASSWORD)))
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("$", hasSize(0)))
+                .andReturn()
+                .getResponse();
+    }
+
     private String getAuthenticationToken(String username, String password) throws Exception {
         LoginForm loginForm = new LoginForm(username, password);
         MvcResult response = mockMvc.perform(post("/api/auth/login")

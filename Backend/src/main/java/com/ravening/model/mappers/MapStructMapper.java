@@ -24,6 +24,8 @@ public interface MapStructMapper {
 
     List<RecipeDto> recipesToDtos(List<Recipe> recipes);
 
+    List<Recipe> recipeDtosToRecipeList(List<RecipeDto> recipeDtoList);
+
     IngredientsDto ingredientToIngredientsDto(Ingredient ingredient);
 
     Ingredient ingredientsDtoToIngredient(IngredientsDto ingredientsDto);

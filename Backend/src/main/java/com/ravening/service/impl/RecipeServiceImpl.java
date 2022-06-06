@@ -6,6 +6,9 @@ import com.ravening.model.recipe.RecipeCategory;
 import com.ravening.repository.recipe.IngredientRepository;
 import com.ravening.repository.recipe.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
@@ -46,9 +49,10 @@ public class RecipeServiceImpl implements RecipeService {
      * @param recipe
      * @return
      */
+    @CachePut(cacheNames = "recipes", key = "#recipe.recipeId")
     public Recipe newRecipe(Recipe recipe) {
         List<Ingredient> ingredients = recipe.getIngredientsList();
-        if (ingredients.size() > 0) {
+        if (ingredients != null && ingredients.size() > 0) {
             ingredientRepository.saveAll(ingredients);
         }
         Date date = new Date();
@@ -59,6 +63,7 @@ public class RecipeServiceImpl implements RecipeService {
         return recipe;
     }
 
+    @Cacheable(cacheNames = "recipes", key = "#id")
     public Recipe getRecipe(long id) {
         Recipe recipeToSave = recipeRepository.findById(id).orElse(null);
         Recipe recipeToReturn = new Recipe();
@@ -107,6 +112,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @CachePut(cacheNames = "recipes", key = "#recipe.recipeId")
     public Recipe createRecipe(Recipe recipe) {
         return newRecipe(recipe);
     }
@@ -117,6 +123,7 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
+    @CacheEvict(cacheNames = {"recipes"}, key = "#id", value = "recipes")
     public boolean deleteRecipeById(Long id) {
         if (findById(id).isPresent()) {
             recipeRepository.deleteById(id);
@@ -129,13 +136,14 @@ public class RecipeServiceImpl implements RecipeService {
     @Override
     public List<Recipe> findRecipesByCreationDate(String date) {
         if (date.contains("T")) {
-            date = getDateForFroentEndFormat(date);
+            date = getDateForFrontEndFormat(date);
         }
 
         return recipeRepository.findAllByCreatedAtEquals(date);
     }
 
     @Override
+    @CachePut(cacheNames = "recipes", key = "#recipe.recipeId", value = "recipes")
     public Recipe updateRecipe(Recipe recipe, Long id) {
         Optional<Recipe> recipeToCheck = recipeRepository.findById(id);
 
@@ -157,11 +165,20 @@ public class RecipeServiceImpl implements RecipeService {
      * @param date
      * @return
      */
-    private String getDateForFroentEndFormat(String date) {
+    private String getDateForFrontEndFormat(String date) {
         String[] dateArray = date.split("T");
         String[] year = dateArray[0].split("-");
         date = year[2] + "-" + year[1] + "-" + year[0] + " " + dateArray[1];
 
         return date;
+    }
+
+    @CacheEvict(cacheNames = "recipes", allEntries = true)
+    public void deleteAllRecipes() {
+        recipeRepository.deleteAll();
+    }
+
+    public void saveRecipes(List<Recipe> recipes) {
+        recipeRepository.saveAll(recipes);
     }
 }

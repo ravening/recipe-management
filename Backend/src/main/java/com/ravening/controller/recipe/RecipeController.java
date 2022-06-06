@@ -110,4 +110,20 @@ public class RecipeController {
 
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
+    @PreAuthorize(value = "hasAnyAuthority('USER', 'ADMIN')")
+    @DeleteMapping("/all")
+    public ResponseEntity deleteAllRecipes() {
+        recipeServiceImpl.deleteAllRecipes();
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PreAuthorize(value = "hasAnyAuthority('USER', 'ADMIN')")
+    @PostMapping
+    public ResponseEntity saveRecipes(@Valid  @RequestBody List<RecipeDto> recipeDtoList) {
+       recipeServiceImpl.saveRecipes(mapper.recipeDtosToRecipeList(recipeDtoList));
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }

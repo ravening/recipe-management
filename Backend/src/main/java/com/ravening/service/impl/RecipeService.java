@@ -22,4 +22,8 @@ public interface RecipeService {
     List<Recipe> findRecipesByCreationDate(String date);
 
     Recipe updateRecipe(Recipe recipe, Long id);
+
+    void deleteAllRecipes();
+
+    void saveRecipes(List<Recipe> recipes);
 }

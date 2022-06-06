@@ -154,7 +154,7 @@ http://localhost:8080/actuator
 ## Tests
 
 All the tests are present under `src/test` folder. 
-There are a total of 44 tests written to cover all scenarios.
+There are a total of 46 tests written to cover all scenarios.
 
 
 ## High level Design
@@ -186,6 +186,9 @@ API documentation is provided using the Swagger Library and health check endpoin
 through spring boot actuator.
 
 Mapstruct library is used to convert between entities and DTOs
+
+Caching for the REST api is provided using spring boot caching library so that the responses are cached 
+and fetched from the cache rather than fetching from database every time.
 
 
 ## Sending api requests using postman
