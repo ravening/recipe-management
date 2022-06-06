@@ -62,6 +62,14 @@ If you have trouble installing the packages and setting up the frontend then you
 can also use Postman to send API requests manually. These steps will be mentioned at the end of the document.
 
 
+### Loading data into database
+
+The data is loaded into database in two ways.
+
+1. Using `src/main/resources/data.sql` . You can add your own entries here as well. \
+2. Programmatically in `src/main/java/dbseeder/DatabaseSeeder.java` . You can add more java \
+   code to load the data.
+
 
 ## How to run:
 
