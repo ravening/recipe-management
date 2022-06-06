@@ -193,8 +193,18 @@ http://localhost:8080/api/auth/login
 }
 ```
 
+Below figure shows how to login to get Auth token.
+
+<img width="891" alt="Screenshot 2022-06-06 at 16 32 00" src="https://user-images.githubusercontent.com/10645273/172183412-07abd2a0-c400-4003-8030-77545645d2e3.png">
+
+
 3. This will send you back the Bearer authentication token in response.
 4. To send any GET/POST/DELETE/PUT request, add the above received token in the `Authorization` part by selecting `Bearer Token` 
 field in Postman
 
+
+Below figure shows, how to include the auth token in the request header so that api can be accessed
+
+
+<img width="885" alt="Screenshot 2022-06-06 at 16 32 53" src="https://user-images.githubusercontent.com/10645273/172183700-286ab95e-34f4-4242-ac52-16a8c469c15f.png">
 
